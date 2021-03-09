@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:time_tracker_app/app/sign_in/sign_in_button.dart';
 import 'package:time_tracker_app/app/sign_in/social_sign_in_button.dart';
@@ -83,7 +84,8 @@ class SignInPage extends StatelessWidget {
     print('Sign In With Email');
   }
 
-  void _onSignInAnonymously() {
-    print('Sign In Anonymously');
+  Future<void> _onSignInAnonymously() async {
+    final userCredentials = await FirebaseAuth.instance.signInAnonymously();
+    print('${userCredentials.user?.uid}');
   }
 }
