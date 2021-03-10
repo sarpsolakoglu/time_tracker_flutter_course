@@ -1,9 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:time_tracker_app/app/sign_in/sign_in_button.dart';
 import 'package:time_tracker_app/app/sign_in/social_sign_in_button.dart';
+import 'package:time_tracker_app/services/auth.dart';
 
 class SignInPage extends StatelessWidget {
+  const SignInPage({Key? key, required this.auth})
+      : super(key: key);
+  final AuthBase auth;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +41,7 @@ class SignInPage extends StatelessWidget {
             assetName: 'images/google-logo.png',
             onPrimary: Colors.black87,
             primary: Colors.white,
-            onPressed: _onSingInWithGoogle,
+            onPressed: _onSingInWithGooglePressed,
           ),
           SizedBox(height: 8.0),
           SocialSignInButton(
@@ -45,14 +49,14 @@ class SignInPage extends StatelessWidget {
             assetName: 'images/facebook-logo.png',
             onPrimary: Colors.white,
             primary: Color(0xFF334D92),
-            onPressed: _onSingInWithFacebook,
+            onPressed: _onSingInWithFacebookPressed,
           ),
           SizedBox(height: 8.0),
           SignInButton(
             text: 'Sign In With Email',
             onPrimary: Colors.white,
             primary: Colors.teal[500],
-            onPressed: _onSignInWithEmail,
+            onPressed: _onSignInWithEmailPressed,
           ),
           SizedBox(height: 8.0),
           Text(
@@ -65,27 +69,26 @@ class SignInPage extends StatelessWidget {
             text: 'Go Anonymous',
             onPrimary: Colors.black87,
             primary: Colors.lime[300],
-            onPressed: _onSignInAnonymously,
+            onPressed: _onSignInAnonymouslyPressed,
           ),
         ],
       ),
     );
   }
 
-  void _onSingInWithGoogle() {
+  void _onSingInWithGooglePressed() {
     print('Sign In With Google');
   }
 
-  void _onSingInWithFacebook() {
+  void _onSingInWithFacebookPressed() {
     print('Sign In With Facebook');
   }
 
-  void _onSignInWithEmail() {
+  void _onSignInWithEmailPressed() {
     print('Sign In With Email');
   }
 
-  Future<void> _onSignInAnonymously() async {
-    final userCredentials = await FirebaseAuth.instance.signInAnonymously();
-    print('${userCredentials.user?.uid}');
+  Future<void> _onSignInAnonymouslyPressed() async {
+    await auth.signInAnonymously();
   }
 }
