@@ -76,12 +76,22 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-  void _onSingInWithGooglePressed() {
-    print('Sign In With Google');
+  Future<void> _onSingInWithGooglePressed() async {
+    try {
+      await auth.signInWithGoogle();
+    } catch (e) {
+      await auth.signOut();
+      print(e);
+    }
   }
 
-  void _onSingInWithFacebookPressed() {
-    print('Sign In With Facebook');
+  Future<void> _onSingInWithFacebookPressed() async {
+    try {
+      await auth.signInWithFacebook();
+    } catch (e) {
+      await auth.signOut();
+      print(e);
+    }
   }
 
   void _onSignInWithEmailPressed() {
@@ -89,6 +99,10 @@ class SignInPage extends StatelessWidget {
   }
 
   Future<void> _onSignInAnonymouslyPressed() async {
-    await auth.signInAnonymously();
+    try {
+      await auth.signInAnonymously();
+    } catch (e) {
+      print(e);
+    }
   }
 }

@@ -8,7 +8,11 @@ class HomePage extends StatelessWidget {
   final AuthBase auth;
 
   Future<void> _onSignOutPressed() async {
-    await auth.signOut();
+    try {
+      await auth.signOut();
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
