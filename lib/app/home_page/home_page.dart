@@ -11,7 +11,7 @@ class HomePage extends StatelessWidget {
     try {
       await auth.signOut();
     } catch (e) {
-      print(e);
+      print(e.toString());
     }
   }
 

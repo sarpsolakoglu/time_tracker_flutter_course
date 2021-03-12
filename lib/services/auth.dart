@@ -4,10 +4,19 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class AuthBase {
   User? get currentUser;
+
   Future<User?> signInAnonymously();
+
   Future<User?> signInWithGoogle();
+
   Future<User?> signInWithFacebook();
+
+  Future<User?> signInWithEmail(String email, String password);
+
+  Future<User?> signUpWithEmail(String email, String password);
+
   Future<void> signOut();
+
   Stream<User?> authStateChanges();
 }
 
@@ -72,6 +81,20 @@ class Auth implements AuthBase {
   @override
   Future<User?> signInAnonymously() async {
     final userCredentials = await _firebaseAuth.signInAnonymously();
+    return userCredentials.user;
+  }
+
+  @override
+  Future<User?> signInWithEmail(String email, String password) async {
+    final userCredentials = await _firebaseAuth.signInWithEmailAndPassword(
+        email: email, password: password);
+    return userCredentials.user;
+  }
+
+  @override
+  Future<User?> signUpWithEmail(String email, String password) async {
+    final userCredentials = await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email, password: password);
     return userCredentials.user;
   }
 

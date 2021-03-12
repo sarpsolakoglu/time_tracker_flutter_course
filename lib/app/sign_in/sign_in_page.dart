@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:time_tracker_app/app/sign_in/sign_in_button.dart';
 import 'package:time_tracker_app/app/sign_in/social_sign_in_button.dart';
 import 'package:time_tracker_app/services/auth.dart';
+import 'email_sign_in_page.dart';
 
 class SignInPage extends StatelessWidget {
-  const SignInPage({Key? key, required this.auth})
-      : super(key: key);
+  const SignInPage({Key? key, required this.auth}) : super(key: key);
   final AuthBase auth;
 
   @override
@@ -15,12 +15,12 @@ class SignInPage extends StatelessWidget {
         title: Text('Time Tracker'),
         elevation: 2.0,
       ),
-      body: _buildContent(),
+      body: _buildContent(context),
       backgroundColor: Colors.grey[200],
     );
   }
 
-  Widget _buildContent() {
+  Widget _buildContent(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(16.0),
       child: Column(
@@ -56,7 +56,7 @@ class SignInPage extends StatelessWidget {
             text: 'Sign In With Email',
             onPrimary: Colors.white,
             primary: Colors.teal[500],
-            onPressed: _onSignInWithEmailPressed,
+            onPressed: () => _onSignInWithEmailPressed(context),
           ),
           SizedBox(height: 8.0),
           Text(
@@ -81,7 +81,7 @@ class SignInPage extends StatelessWidget {
       await auth.signInWithGoogle();
     } catch (e) {
       await auth.signOut();
-      print(e);
+      print(e.toString());
     }
   }
 
@@ -90,19 +90,26 @@ class SignInPage extends StatelessWidget {
       await auth.signInWithFacebook();
     } catch (e) {
       await auth.signOut();
-      print(e);
+      print(e.toString());
     }
   }
 
-  void _onSignInWithEmailPressed() {
-    print('Sign In With Email');
+  void _onSignInWithEmailPressed(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => EmailSignInPage(
+          auth: auth,
+        ),
+        fullscreenDialog: true,
+      ),
+    );
   }
 
   Future<void> _onSignInAnonymouslyPressed() async {
     try {
       await auth.signInAnonymously();
     } catch (e) {
-      print(e);
+      print(e.toString());
     }
   }
 }
