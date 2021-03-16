@@ -1,18 +1,13 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:time_tracker_app/services/auth.dart';
 
-class SignInBloc {
-  SignInBloc({required this.auth});
+class SignInManager {
+  SignInManager({required this.auth, required this.isLoading});
 
   final AuthBase auth;
-  final StreamController<bool> _isLoadingController = StreamController<bool>();
-
-  Stream<bool> get isLoadingStream => _isLoadingController.stream;
-
-  void dispose() {
-    _isLoadingController.close();
-  }
+  final ValueNotifier<bool> isLoading;
 
   Future<User?> signInAnonymously() async =>
       await _signIn(auth.signInAnonymously);
@@ -23,14 +18,12 @@ class SignInBloc {
   Future<User?> signInWithFacebook() async =>
       await _signIn(auth.signInWithFacebook);
 
-  void _setIsLoading(bool isLoading) => _isLoadingController.add(isLoading);
-
   Future<User?> _signIn(Future<User?> Function() signInMethod) async {
     try {
-      _setIsLoading(true);
+      isLoading.value = true;
       return await signInMethod();
     } catch (e) {
-      _setIsLoading(false);
+      isLoading.value = false;
       rethrow;
     }
   }

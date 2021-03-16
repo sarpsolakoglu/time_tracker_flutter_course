@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:time_tracker_app/app/sign_in/email/email_sign_in_model.dart';
+import 'package:time_tracker_app/app/sign_in/email/bloc/email_sign_in_model.dart';
 import 'package:time_tracker_app/services/auth.dart';
 
 class EmailSignInBloc {
