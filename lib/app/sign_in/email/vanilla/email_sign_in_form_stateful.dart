@@ -2,11 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'file:///C:/Users/sosol/Developer/time_tracker_flutter_course/lib/app/sign_in/email/bloc/email_sign_in_model.dart';
 import 'package:time_tracker_app/app/sign_in/sign_in_button.dart';
 import 'package:time_tracker_app/app/sign_in/validators.dart';
 import 'package:time_tracker_app/common_widgets/show_exception_alert_dialog.dart';
 import 'package:time_tracker_app/services/auth.dart';
+import 'package:time_tracker_app/app/sign_in/email/bloc/email_sign_in_model.dart';
 
 class EmailSignInFormStateful extends StatefulWidget with EmailAndPasswordValidators {
   @override
