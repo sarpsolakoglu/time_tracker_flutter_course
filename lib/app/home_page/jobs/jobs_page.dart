@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:time_tracker_app/app/home_page/job_entries/job_entries_page.dart';
 import 'package:time_tracker_app/app/home_page/jobs/edit_job_page.dart';
-import 'package:time_tracker_app/app/home_page/jobs/empty_content.dart';
 import 'package:time_tracker_app/app/home_page/jobs/job_list_tile.dart';
 import 'package:time_tracker_app/app/home_page/jobs/list_items_builder.dart';
 import 'package:time_tracker_app/app/models/job.dart';
@@ -13,7 +13,8 @@ import 'package:time_tracker_app/services/database.dart';
 
 class JobsPage extends StatelessWidget {
   Future<void> _createJob(BuildContext context) async {
-    EditJobPage.show(context);
+    final database = Provider.of<Database>(context, listen: false);
+    EditJobPage.show(context, database: database);
   }
 
   Future<void> _delete(BuildContext context, Job job) async {
@@ -65,10 +66,7 @@ class JobsPage extends StatelessWidget {
             onDismissed: (direction) => _delete(context, job),
             child: JobListTile(
               job: job,
-              onTap: () => EditJobPage.show(
-                context,
-                job: job,
-              ),
+              onTap: () => JobEntriesPage.show(context, job),
             ),
           ),
         );
