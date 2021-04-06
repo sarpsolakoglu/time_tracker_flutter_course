@@ -30,28 +30,6 @@ class JobsPage extends StatelessWidget {
     }
   }
 
-  Future<void> _signOut(BuildContext context) async {
-    try {
-      final auth = Provider.of<AuthBase>(context, listen: false);
-      await auth.signOut();
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  Future<void> _confirmSignOut(BuildContext context) async {
-    final didRequestSignOut = await showAlertDialog(
-      context,
-      title: 'Logout',
-      content: 'Are you sure you want to logout?',
-      defaultActionText: 'Logout',
-      cancelActionText: 'Cancel',
-    );
-    if (didRequestSignOut == true) {
-      _signOut(context);
-    }
-  }
-
   Widget _buildContent(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
     return StreamBuilder<List<Job>>(
@@ -80,23 +58,13 @@ class JobsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Jobs'),
         actions: [
-          TextButton(
-            onPressed: () => _confirmSignOut(context),
-            child: Text(
-              'Logout',
-              style: TextStyle(
-                fontSize: 18.0,
-                color: Colors.white,
-              ),
-            ),
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () => _createJob(context),
           ),
         ],
       ),
       body: _buildContent(context),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => _createJob(context),
-      ),
     );
   }
 }

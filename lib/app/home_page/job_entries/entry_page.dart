@@ -2,10 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:time_tracker_app/app/home_page/job_entries/date_time_picker.dart';
 import 'package:time_tracker_app/app/home_page/job_entries/format.dart';
 import 'package:time_tracker_app/app/models/entry.dart';
 import 'package:time_tracker_app/app/models/job.dart';
+import 'package:time_tracker_app/common_widgets/date_time_picker.dart';
 import 'package:time_tracker_app/common_widgets/show_exception_alert_dialog.dart';
 import 'package:time_tracker_app/services/database.dart';
 
@@ -20,7 +20,7 @@ class EntryPage extends StatefulWidget {
       required Database database,
       required Job job,
       Entry? entry}) async {
-    await Navigator.of(context).push(
+    await Navigator.of(context, rootNavigator: true).push(
       MaterialPageRoute(
         builder: (context) =>
             EntryPage(database: database, job: job, entry: entry),
