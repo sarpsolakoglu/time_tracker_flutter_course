@@ -8,8 +8,12 @@ import 'package:time_tracker_app/common_widgets/show_exception_alert_dialog.dart
 import 'package:time_tracker_app/services/auth.dart';
 import 'package:time_tracker_app/app/sign_in/email/bloc/email_sign_in_model.dart';
 
-class EmailSignInFormStateful extends StatefulWidget with EmailAndPasswordValidators {
+class EmailSignInFormStateful extends StatefulWidget
+    with EmailAndPasswordValidators {
   @override
+  EmailSignInFormStateful({Key? key, this.onSignedIn})
+      : super(key: key);
+  final VoidCallback? onSignedIn;
   _State createState() => _State();
 }
 
@@ -48,7 +52,9 @@ class _State extends State<EmailSignInFormStateful> {
       } else {
         await auth.signUpWithEmail(_email, _password);
       }
-      Navigator.of(context).pop();
+      if (widget.onSignedIn != null) {
+        widget.onSignedIn!();
+      }
     } on FirebaseAuthException catch (e) {
       showExceptionAlertDialog(
         context,
@@ -87,6 +93,7 @@ class _State extends State<EmailSignInFormStateful> {
   TextField _buildEmailTextField() {
     bool showErrorText = _submitted && !widget.emailValidator.isValid(_email);
     return TextField(
+      key: Key('email'),
       decoration: InputDecoration(
         labelText: 'Email',
         hintText: 'test@test.com',
@@ -107,6 +114,7 @@ class _State extends State<EmailSignInFormStateful> {
     bool showErrorText =
         _submitted && !widget.passwordValidator.isValid(_password);
     return TextField(
+      key: Key('password'),
       decoration: InputDecoration(
         labelText: 'Password',
         errorText: showErrorText ? widget.invalidPasswordErrorText : null,
@@ -142,6 +150,7 @@ class _State extends State<EmailSignInFormStateful> {
         onPressed: submitEnabled ? _submit : null,
       ),
       TextButton(
+        key: Key('secondaryButton'),
         onPressed: !_isLoading ? _toggleFormType : null,
         child: Text(
           secondaryText,
